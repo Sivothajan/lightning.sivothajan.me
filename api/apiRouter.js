@@ -74,6 +74,14 @@ app.get('/lnurlp/callback', async (req, res) => {
     }
 });
 
+app.get('/check', (req, res) => {
+    res.json({
+        status: "OK",
+        timestamp
+    });
+}
+);
+
 app.get('/lnurlp/verify/:uuid', async (req, res) => {
     const { uuid } = req.params;
     try{
