@@ -43,6 +43,7 @@ app.get('/lnurlp/callback', async (req, res) => {
             const uuid = uuidv4();
             try{
                 await saveDepositDetails(uuid, data);
+                await getPaymentStatus(pr);
             } catch (error) {
                 console.log('Error saving deposit details:', error);
             } finally {
