@@ -21,6 +21,21 @@ app.use(cors({
 
 app.use(json());
 
+app.get('/', (req, res) => {
+    res.json({
+        status: "OK",
+        message: "Welcome to the Lightning Payment API",
+        description: "This API handles Lightning Network payment requests and verification via Binance.",
+        available_endpoints: {
+            "/": "GET - Shows this welcome message with available endpoints.",
+            "/check": "GET - Returns server status and timestamp.",
+            "/lnurlp/callback?amount=<amount_in_msats>": "GET - Initiates a deposit request and returns a payment request (pr). Amount is required in millisatoshis.",
+            "/lnurlp/verify/:uuid": "GET - Verifies if the payment with the provided UUID has been settled."
+        },
+        note: "Amounts must be provided in millisatoshis (1 satoshi = 1000 millisatoshis)."
+    });
+});
+
 const coin = 'BTC';
 const network = 'LIGHTNING';
 const timestamp = Date.now();
