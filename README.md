@@ -1,4 +1,5 @@
 # lightning.sivothajan.me
+
  custom domain lightning address support for binance lightning nrtwork with the help of Binance API, Supabase and Vercel serverless functions
 
 ---
@@ -23,7 +24,7 @@ CREATE TABLE public.lightning_data (
 ) TABLESPACE pg_default;
 ```
 
-### Table Columns and Description:
+### Table Columns and Description
 
 - **`uuid`**: A universally unique identifier for each entry. This column is of type `UUID` and will automatically generate a value if not provided when a new record is inserted.
   
@@ -36,6 +37,7 @@ CREATE TABLE public.lightning_data (
 ---
 
 ## Vercel Serverless functions - Region (**`cdg1`**)
+
 The project is deployed in the **`CDG1`** (Paris) region to ensure compliance with Binance API restrictions, which may block access from certain regions. By specifying this region, the deployment ensures that all API calls to Binance are routed from a region where access is permitted, avoiding potential issues with region-based bans on Binance API.
 
 ---
@@ -64,5 +66,24 @@ This project is intended for developers and users familiar with the **Binance Li
 - **Platform Compatibility**: This project relies on **Supabase** and **Vercel**. Ensure that your environment supports these platforms and configurations before using the project in production.
 
 ---
+
+## Roadmap
+
+| LUD Version | Status |
+|-------------|--------|
+| LUD-01      | - [ ]  |
+| LUD-02      | - [ ]  |
+| LUD-03      | - [ ]  |
+| LUD-04      | - [ ]  |
+| LUD-06      | - [x]  |
+| LUD-07      | - [ ]  |
+| LUD-08      | - [ ]  |
+| LUD-09      | - [ ]  |
+| LUD-10      | - [ ]  |
+| LUD-12      | - [ ]  |
+| LUD-13      | - [ ]  |
+| LUD-14      | - [ ]  |
+| LUD-15      | - [ ]  |
+| LUD-16      | - [ ]  |
 
 ### npub: [sivothajan.me](https://nosta.me/sivothajan.me)
