@@ -1,15 +1,10 @@
-import fetch from 'node-fetch';
-import dotenv from 'dotenv';
-import { createHmac } from 'crypto';
-import AbortController from 'abort-controller';
-
-dotenv.config();
-
-const apiKey = process.env.BINANCE_API_KEY;
-const apiSecret = process.env.BINANCE_API_SECRET;
+import fetch from "node-fetch";
+import { createHmac } from "crypto";
+import AbortController from "abort-controller";
+import { apiKey, apiSecret } from "./binanceCilent.js";
 
 if (!apiKey || !apiSecret) {
-  console.error('API Key or Secret is missing!');
+  console.error("API Key or Secret is missing!");
   process.exit(1);
 }
 
@@ -29,7 +24,7 @@ const amountRounder = (amount) => {
 
   let newAmount = satoshisToBitcoin(minStatsAmount);
 
-  if(amount >= minMSatsAmount && amount <= maxMSatsAmount && amount !== 0) {
+  if (amount >= minMSatsAmount && amount <= maxMSatsAmount && amount !== 0) {
     newAmount = satoshisToBitcoin(amount * 1000);
   } else if (amount < minMSatsAmount) {
     newAmount = satoshisToBitcoin(minStatsAmount);
@@ -50,7 +45,9 @@ const getDepositAddress = async (amount) => {
   };
 
   const queryString = new URLSearchParams(params).toString();
-  const signature = createHmac('sha256', apiSecret).update(queryString).digest('hex');
+  const signature = createHmac("sha256", apiSecret)
+    .update(queryString)
+    .digest("hex");
   const url = `https://api.binance.com/sapi/v1/capital/deposit/address?${queryString}&signature=${signature}`;
 
   const controller = new AbortController();
@@ -58,28 +55,30 @@ const getDepositAddress = async (amount) => {
 
   try {
     const response = await fetch(url, {
-      method: 'GET',
-      headers: { 'X-MBX-APIKEY': apiKey },
+      method: "GET",
+      headers: { "X-MBX-APIKEY": apiKey },
       signal: controller.signal,
     });
 
     if (!response.ok) {
-      throw new Error(`Error fetching data: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `Error fetching data: ${response.status} ${response.statusText}`,
+      );
     }
 
     const data = await response.json();
 
     if (data && data.address) {
-      console.log('Deposit Address:', data.address);
-      console.log('URL:', data.url);
-      console.log('Coin:', data.coin);
-      console.log('Tag:', data.tag);
+      console.log("Deposit Address:", data.address);
+      console.log("URL:", data.url);
+      console.log("Coin:", data.coin);
+      console.log("Tag:", data.tag);
       return [data.address, data];
     } else {
-      console.log('Error:', data);
+      console.log("Error:", data);
     }
   } catch (error) {
-    console.error('Error fetching deposit address:', error);
+    console.error("Error fetching deposit address:", error);
     return null;
   } finally {
     clearTimeout(timeoutId);

@@ -1,24 +1,24 @@
 {
   "name": "lightning.sivothajan.me",
-  "version": "1.0.0",
-  "main": "api/apiRouter.js",
-  "scripts": {
-    "dev": "node api/apiRouter.js"
-  },
+  "version": "1.0.1",
   "keywords": [],
   "author": "Sivothayan",
   "license": "MIT",
   "description": "custom domain lightning address support for binance lightning nrtwork with the help of Binance API, Supabase and Vercel serverless functions",
   "type": "module",
+  "scripts": {
+    "format": "prettier --write ."
+  },
   "dependencies": {
-    "@supabase/supabase-js": "^2.49.1",
+    "@supabase/supabase-js": "^2.50.5",
     "abort-controller": "^3.0.0",
     "cors": "^2.8.5",
-    "crypto": "^1.0.1",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
     "node-fetch": "^3.3.2",
-    "uuid": "^11.1.0",
-    "vercel": "^41.3.2"
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2"
   }
 }

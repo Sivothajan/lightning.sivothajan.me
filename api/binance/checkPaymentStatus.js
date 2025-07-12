@@ -1,15 +1,10 @@
-import fetch from 'node-fetch';
-import dotenv from 'dotenv';
-import { createHmac } from 'crypto';
-import AbortController from 'abort-controller';
-
-dotenv.config();
-
-const apiKey = process.env.BINANCE_API_KEY;
-const apiSecret = process.env.BINANCE_API_SECRET;
+import fetch from "node-fetch";
+import { createHmac } from "crypto";
+import AbortController from "abort-controller";
+import { apiKey, apiSecret } from "./binanceClient.js";
 
 if (!apiKey || !apiSecret) {
-  console.error('API Key or Secret is missing!');
+  console.error("API Key or Secret is missing!");
   process.exit(1);
 }
 
@@ -21,7 +16,9 @@ const checkPaymentStatus = async (lnbcAddress) => {
   };
 
   const queryString = new URLSearchParams(params).toString();
-  const signature = createHmac('sha256', apiSecret).update(queryString).digest('hex');
+  const signature = createHmac("sha256", apiSecret)
+    .update(queryString)
+    .digest("hex");
   const url = `https://api.binance.com/sapi/v1/capital/withdraw/history?${queryString}&signature=${signature}`;
 
   const controller = new AbortController();
@@ -29,31 +26,35 @@ const checkPaymentStatus = async (lnbcAddress) => {
 
   try {
     const response = await fetch(url, {
-      method: 'GET',
-      headers: { 'X-MBX-APIKEY': apiKey },
+      method: "GET",
+      headers: { "X-MBX-APIKEY": apiKey },
       signal: controller.signal,
     });
 
     if (!response.ok) {
-      throw new Error(`Error fetching data: ${response.status} ${response.statusText}`);
+      throw new Error(
+        `Error fetching data: ${response.status} ${response.statusText}`,
+      );
     }
 
     const data = await response.json();
 
     if (Array.isArray(data)) {
-      const filteredData = data.filter(deposit => deposit.address === lnbcAddress);
+      const filteredData = data.filter(
+        (deposit) => deposit.address === lnbcAddress,
+      );
 
-        if(filteredData[0].status === 6 && filteredData.length === 0) {
-          return true;
-        } else {
-          return false;
-        } 
+      if (filteredData[0].status === 6 && filteredData.length === 0) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
-      console.log('Error: Unexpected response format', data);
+      console.log("Error: Unexpected response format", data);
       return false;
     }
   } catch (error) {
-    console.error('Error fetching deposit details:', error);
+    console.error("Error fetching deposit details:", error);
     return false;
   } finally {
     clearTimeout(timeoutId);

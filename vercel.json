@@ -1,54 +1,54 @@
 {
-    "version": 2,
-    "builds": [
-        { 
-            "src": "api/apiRouter.js",  
-            "use": "@vercel/node" 
-        },
-        { 
-            "src": "api/binance/checkPaymentStatus.js",
-            "use": "@vercel/node" 
-        },
-        { 
-            "src": "api/binance/getDepositAddress.js",
-            "use": "@vercel/node" 
-        },
-        { 
-            "src": "api/binance/getDepositDetails.js",
-            "use": "@vercel/node" 
-        },
-        { 
-            "src": "api/supabase/addDataToDb.js",
-            "use": "@vercel/node" 
-        },
-        { 
-            "src": "api/supabase/getDataFromDb.js",
-            "use": "@vercel/node" 
-        },
-        { 
-            "src": "api/supabase/getPaymentStatus.js",
-            "use": "@vercel/node" 
-        },
-        { 
-            "src": "api/supabase/updatePaymentStatus.js",
-            "use": "@vercel/node" 
-        },
-        { 
-            "src": "api/wallet/saveDepositDetails.js",
-            "use": "@vercel/node" 
-        }
-    ],
-    "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "/api/apiRouter.js",
-            "methods": ["GET", "POST", "OPTIONS"],
-            "headers": {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers": "Authorization, Content-Type"
-            }
-        }
-    ],
-    "regions": ["cdg1"]
+  "version": 2,
+  "builds": [
+    {
+      "src": "api/apiRouter.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/binance/checkPaymentStatus.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/binance/getDepositAddress.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/binance/getDepositDetails.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/supabase/addDataToDb.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/supabase/getDataFromDb.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/supabase/getPaymentStatus.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/supabase/updatePaymentStatus.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/wallet/saveDepositDetails.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/api/apiRouter.js",
+      "methods": ["GET", "POST", "OPTIONS"],
+      "headers": {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Authorization, Content-Type"
+      }
+    }
+  ],
+  "regions": ["cdg1"]
 }

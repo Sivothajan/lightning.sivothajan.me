@@ -1,6 +1,6 @@
 # lightning.sivothajan.me
 
- custom domain lightning address support for binance lightning nrtwork with the help of Binance API, Supabase and Vercel serverless functions
+custom domain lightning address support for binance lightning nrtwork with the help of Binance API, Supabase and Vercel serverless functions
 
 ---
 
@@ -27,7 +27,7 @@ CREATE TABLE public.lightning_data (
 ### Table Columns and Description
 
 - **`uuid`**: A universally unique identifier for each entry. This column is of type `UUID` and will automatically generate a value if not provided when a new record is inserted.
-  
+
 - **`data`**: A `JSONB` column for storing JSON data. This allows you to store flexible, structured data in each record.
 
 - **`isPaid`**: A boolean value indicating whether the record has been paid. The default value is `false`, meaning that records will be marked as unpaid by default unless updated to `true`.
