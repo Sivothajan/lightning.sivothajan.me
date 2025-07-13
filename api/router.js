@@ -187,7 +187,7 @@ app.get("/lnurlp/verify/:uuid", async (req, res) => {
   });
 });
 
-app.all("/:splat", (req, res, next) => {
+app.all("/{*splat}", (req, res, next) => {
   res.append("Link", '</favicon.ico>; rel="icon"; type="image/x-icon"');
   res.append(
     "Link",
