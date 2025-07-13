@@ -41,7 +41,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/api/router",
+      "dest": "/api/router.js",
       "methods": ["GET", "POST", "OPTIONS"],
       "headers": {
         "Content-Type": "application/json",
