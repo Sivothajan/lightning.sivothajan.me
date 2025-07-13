@@ -1,53 +1,27 @@
 {
-  "version": 2,
-  "builds": [
+  "headers": [
     {
-      "src": "api/apiRouter.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/binance/checkPaymentStatus.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/binance/getDepositAddress.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/binance/getDepositDetails.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/supabase/addDataToDb.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/supabase/getDataFromDb.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/supabase/getPaymentStatus.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/supabase/updatePaymentStatus.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "api/wallet/saveDepositDetails.js",
-      "use": "@vercel/node"
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET,POST,OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type"
+        }
+      ]
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "/api/router.js",
-      "methods": ["GET", "POST", "OPTIONS"],
-      "headers": {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers": "Authorization, Content-Type"
-      }
+      "source": "/favicon.ico",
+      "destination": "/favicon/favicon.ico"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/api/router"
     }
   ],
   "regions": ["cdg1"]
