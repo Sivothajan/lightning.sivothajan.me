@@ -187,25 +187,6 @@ app.get("/lnurlp/verify/:uuid", async (req, res) => {
   });
 });
 
-app.all("/{*splat}", (req, res, next) => {
-  res.append("Link", '</favicon.ico>; rel="icon"; type="image/x-icon"');
-  res.append(
-    "Link",
-    '</apple-touch-icon.png>; rel="apple-touch-icon"; sizes="180x180"',
-  );
-  res.append(
-    "Link",
-    '</favicon-32x32.png>; rel="icon"; type="image/png"; sizes="32x32"',
-  );
-  res.append(
-    "Link",
-    '</favicon-16x16.png>; rel="icon"; type="image/png"; sizes="16x16"',
-  );
-  res.append("Link", '</site.webmanifest>; rel="manifest"');
-
-  next();
-});
-
 app.options("/{*splat}", cors());
 
 export default app;
