@@ -17,28 +17,13 @@ app.use(
   cors({
     origin: "*",
     methods: ["GET", "POST", "OPTIONS"],
-    allowedHeaders: ["Authorization", "Content-Type"],
+    allowedHeaders: ["Content-Type"],
   }),
 );
 
 app.use(json());
 
 app.get("/", (req, res) => {
-  res.append("Link", '</favicon.ico>; rel="icon"; type="image/x-icon"');
-  res.append(
-    "Link",
-    '</apple-touch-icon.png>; rel="apple-touch-icon"; sizes="180x180"',
-  );
-  res.append(
-    "Link",
-    '</favicon-32x32.png>; rel="icon"; type="image/png"; sizes="32x32"',
-  );
-  res.append(
-    "Link",
-    '</favicon-16x16.png>; rel="icon"; type="image/png"; sizes="16x16"',
-  );
-  res.append("Link", '</site.webmanifest>; rel="manifest"');
-
   res.json({
     status: "OK",
     message: "Welcome to the Lightning Payment API",
@@ -61,21 +46,6 @@ const network = "LIGHTNING";
 const timestamp = Date.now();
 
 app.get("/lnurlp/callback", async (req, res) => {
-  res.append("Link", '</favicon.ico>; rel="icon"; type="image/x-icon"');
-  res.append(
-    "Link",
-    '</apple-touch-icon.png>; rel="apple-touch-icon"; sizes="180x180"',
-  );
-  res.append(
-    "Link",
-    '</favicon-32x32.png>; rel="icon"; type="image/png"; sizes="32x32"',
-  );
-  res.append(
-    "Link",
-    '</favicon-16x16.png>; rel="icon"; type="image/png"; sizes="16x16"',
-  );
-  res.append("Link", '</site.webmanifest>; rel="manifest"');
-
   const { amount } = req.query;
 
   if (!amount) {
@@ -138,21 +108,6 @@ app.get("/lnurlp/verify/:uuid", async (req, res) => {
     const pr = rowData[0]?.data?.address;
     const isPaidInDb = await getPaymentStatus(pr);
     const isPaidInBinance = await checkPaymentStatus(pr);
-
-    res.append("Link", '</favicon.ico>; rel="icon"; type="image/x-icon"');
-    res.append(
-      "Link",
-      '</apple-touch-icon.png>; rel="apple-touch-icon"; sizes="180x180"',
-    );
-    res.append(
-      "Link",
-      '</favicon-32x32.png>; rel="icon"; type="image/png"; sizes="32x32"',
-    );
-    res.append(
-      "Link",
-      '</favicon-16x16.png>; rel="icon"; type="image/png"; sizes="16x16"',
-    );
-    res.append("Link", '</site.webmanifest>; rel="manifest"');
 
     if (isPaidInDb != isPaidInBinance) {
       await updatePaymentStatus(uuid, isPaidInBinance);
