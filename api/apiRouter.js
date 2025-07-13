@@ -142,6 +142,6 @@ app.get("/lnurlp/verify/:uuid", async (req, res) => {
   });
 });
 
-app.options("/(.*)/", cors());
+app.options("/{*splat}", cors());
 
 export default app;
