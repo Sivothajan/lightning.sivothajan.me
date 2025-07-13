@@ -32,7 +32,7 @@ app.get("/", (req, res) => {
     available_endpoints: {
       "/": "GET - Shows this welcome message with available endpoints.",
       "/check": "GET - Returns server status and timestamp.",
-      "/lnurlp/callback?amount=_amount_in_msats_":
+      "/lnurlp/callback?amount=<amount_in_msats>":
         "GET - Initiates a deposit request and returns a payment request (pr). Amount is required in millisatoshis.",
       "/lnurlp/verify/:uuid":
         "GET - Verifies if the payment with the provided UUID has been settled.",
@@ -142,6 +142,6 @@ app.get("/lnurlp/verify/:uuid", async (req, res) => {
   });
 });
 
-app.options("*", cors());
+app.options("/(.*)/", cors());
 
 export default app;
