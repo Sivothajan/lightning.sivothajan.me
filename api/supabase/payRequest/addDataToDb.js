@@ -8,7 +8,7 @@ const addDataToDb = async (uuid, paymentData) => {
       url: paymentData.url || null,
       coin: paymentData.coin,
       amount: paymentData.amount,
-      nostrPubkey: paymentData.nostr_pubkey || null,
+      nostr_pubkey: paymentData.nostr_pubkey || null,
       tag: paymentData.tag || null,
       comment: paymentData.comment || null,
       is_paid: false,
