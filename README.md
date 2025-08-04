@@ -54,9 +54,11 @@ CREATE TABLE public.lightning_data (
 
 ---
 
-## Vercel Serverless functions - Region (**`cdg1`**)
+## Installation
 
-The project is deployed in the **`CDG1`** (Paris) region to ensure compliance with Binance API restrictions, which may block access from certain regions. By specifying this region, the deployment ensures that all API calls to Binance are routed from a region where access is permitted, avoiding potential issues with region-based bans on Binance API.
+NOTE-1: This is a standalone project and does not require any additional dependencies beyond the ones specified in the `package.json` file. This main branch is for self-hosting on your own server or local environment.
+
+NOTE-2: See the [Vercel Branch](<[https://](https://github.com/Sivothajan/lightning.sivothajan.me/tree/vercel)>) for deploy in Vercel.
 
 ---
 
