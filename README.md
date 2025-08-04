@@ -136,6 +136,7 @@ IS_PUBKEY_MANDATORY=false
 ALLOWS_NOSTR=true
 IS_EMAIL_IDENTIFIER=false
 IS_DISPOSABLE_ADDRESS=false
+IS_MESSAGE_IN_SUCCESS_ACTION=true
 ```
 
 ---
@@ -163,7 +164,7 @@ This project is intended for developers and users familiar with the **Binance Li
 | LUD-07   | ❌     |
 | LUD-08   | ❌     |
 | LUD-09   | ✔️     |
-| LUD-10   | ❌     |
+| LUD-10   | ✔️     |
 | LUD-11   | ✔️     |
 | LUD-12   | ✔️     |
 | LUD-13   | ❌     |

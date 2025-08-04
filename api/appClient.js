@@ -15,6 +15,8 @@ const allowsNostr = process.env.ALLOWS_NOSTR === "true";
 const isEmailIdentifier = process.env.IS_EMAIL_IDENTIFIER === "true";
 const isDisposableAddress = process.env.IS_DISPOSABLE_ADDRESS === "true";
 const isCommentsAllowed = process.env.IS_COMMENTS_ALLOWED === "true";
+const isMessageInSuccessAction =
+  process.env.IS_MESSAGE_IN_SUCCESS_ACTION === "true";
 
 export {
   hostName,
@@ -28,6 +30,7 @@ export {
   isEmailIdentifier,
   isDisposableAddress,
   isCommentsAllowed,
+  isMessageInSuccessAction,
 };
 
 if (!hostName || !nostrPublicKey) {

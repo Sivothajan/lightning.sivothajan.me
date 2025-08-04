@@ -10,6 +10,21 @@ import {
 } from "./supabase/payRequest/index.js";
 import { saveDepositDetails } from "./wallet/index.js";
 
+import {
+  hostName,
+  nostrPublicKey,
+  minSendable,
+  maxSendable,
+  isNameMandatory,
+  isEmailMandatory,
+  isPubkeyMandatory,
+  allowsNostr,
+  isEmailIdentifier,
+  isDisposableAddress,
+  isCommentsAllowed,
+  isMessageInSuccessAction,
+} from "./appClient.js";
+
 const app = express();
 
 app.use(
@@ -108,13 +123,20 @@ app.get("/lnurlp/callback", async (req, res) => {
       } catch (error) {
         console.log("Error saving deposit details:", error);
       } finally {
+        let successAction;
+        isMessageInSuccessAction
+          ? (successAction = {
+              tag: "message",
+              message: "Thanks, sats received!",
+            })
+          : (successAction = {
+              tag: "url",
+              description: "Thanks for your sats, Verify your payment",
+              url: `https://${hostName}/lnurlp/verify/${uuid}`,
+            });
         const content = {
           status: "OK",
-          successAction: {
-            // LUD-09
-            tag: "message",
-            message: "Thanks, sats received!",
-          },
+          successAction: successAction, // LUD-09
           verify: `https://${hostName}/lnurlp/verify/${uuid}`,
           routes: [],
           pr: `${payreqAddress}`,
