@@ -4,4 +4,4 @@ node_modules
 test
 .gitignore
 .vercel
-appClient.js
+ignored

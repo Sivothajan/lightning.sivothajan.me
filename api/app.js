@@ -1,12 +1,15 @@
 import express, { json } from "express";
 import cors from "cors";
 import { v4 as uuidv4 } from "uuid";
-import { checkPaymentStatus, getDepositAddress } from "./binance/index.js";
-import {
-  getDataFromDb,
-  getPaymentStatus,
-  updatePaymentStatus,
-} from "./supabase/payRequest/index.js";
+
+// Importing Binance-related functions
+import checkPaymentStatus from "./binance/checkPaymentStatus.js";
+import getDepositAddress from "./binance/getDepositAddress.js";
+
+// Importing Supabase-related functions
+import getDataFromDb from "./supabase/payRequest/getDataFromDb.js";
+import getPaymentStatus from "./supabase/payRequest/getPaymentStatus.js";
+import updatePaymentStatus from "./supabase/payRequest/updatePaymentStatus.js";
 
 import dotenv from "dotenv";
 
