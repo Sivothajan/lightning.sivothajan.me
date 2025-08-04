@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "author": "Sivothayan",
   "license": "MIT",
-  "description": "custom domain lightning address support for binance lightning nrtwork with the help of Binance API, Supabase and Vercel serverless functions",
+  "description": "custom domain lightning address support for binance lightning nrtwork with the help of Binance API and Supabase",
   "type": "module",
   "scripts": {
     "dev": "nodemon api/app.js",

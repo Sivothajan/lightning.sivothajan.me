@@ -1,6 +1,6 @@
 # lightning.sivothajan.me
 
-custom domain lightning address support for binance lightning nrtwork with the help of Binance API, Supabase and Vercel serverless functions
+custom domain lightning address support for binance lightning nrtwork with the help of Binance API and Supabase
 
 ---
 
@@ -56,9 +56,55 @@ CREATE TABLE public.lightning_data (
 
 ## Installation
 
-NOTE-1: This is a standalone project and does not require any additional dependencies beyond the ones specified in the `package.json` file. This main branch is for self-hosting on your own server or local environment.
+NOTE-1: This is a standalone project and does not require any additional dependencies beyond the ones specified in the `package.json` file and `supabase`. This main branch is for self-hosting on your own server or local environment.
 
 NOTE-2: See the [Vercel Branch](<[https://](https://github.com/Sivothajan/lightning.sivothajan.me/tree/vercel)>) for deploy in Vercel.
+
+1. Clone the repository:
+
+   ```bash
+   gh repo clone Sivothajan/lightning.sivothajan.me
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+    cd lightning.sivothajan.me
+   ```
+
+3. Install the dependencies:
+
+   ```bash
+   npm install
+   ```
+
+4. Install the `supabase` CLI tool if you haven't already:
+
+   ```bash
+   npm install -g supabase
+   ```
+
+5. Initialize Supabase in the project directory:
+
+   ```bash
+   supabase init
+   ```
+
+6. Start the Supabase local development server:
+
+   ```bash
+    supabase start
+   ```
+
+7. Create the `lightning_data` table in your Supabase database by executing the SQL query provided above.
+
+8. Create a `.env` file in the root directory and add your environment variables as described below.
+
+9. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
 
 ---
 
@@ -96,12 +142,12 @@ IS_DISPOSABLE_ADDRESS=false
 
 ## ⚠️ Usage Warning
 
-This project is intended for developers and users familiar with the **Binance Lightning Network**, **Supabase**, and **Vercel Serverless Functions**. Please be aware of the following when using this project:
+This project is intended for developers and users familiar with the **Binance Lightning Network** and **Supabase**. Please be aware of the following when using this project:
 
 - **Experimental Nature**: This project may still be under development or testing. Use it at your own risk, and make sure to thoroughly test in a safe environment before deploying it for production use.
 - **Binance API Limitations**: The integration with Binance’s Lightning Network may be subject to rate limits, changes in API functionality, or downtime on their servers. Always check for updates and handle errors gracefully.
 - **Security Risks**: Be cautious when handling sensitive information such as API keys, secrets, or user data. Always follow best security practices to avoid exposing sensitive data.
-- **Platform Compatibility**: This project relies on **Supabase** and **Vercel**. Ensure that your environment supports these platforms and configurations before using the project in production.
+- **Platform Compatibility**: This project relies on **Supabase**. Ensure that your environment supports **supabase** platform and configurations before using the project in production.
 
 ---
 
