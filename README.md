@@ -105,25 +105,27 @@ This project is intended for developers and users familiar with the **Binance Li
 
 ### Roadmap
 
-- [ ] LUD-01
-- [ ] LUD-02
-- [ ] LUD-03
-- [ ] LUD-04
-- [x] LUD-06
-- [ ] LUD-07
-- [ ] LUD-08
-- [x] LUD-09
-- [ ] LUD-10
-- [x] LUD-11
-- [x] LUD-12
-- [ ] LUD-13
-- [ ] LUD-14
-- [ ] LUD-15
-- [x] LUD-16
-- [ ] LUD-17
-- [ ] LUD-18
-- [ ] LUD-19
-- [ ] LUD-20
-- [x] LUD-21
+| LUD Spec | Status |
+| -------- | ------ |
+| LUD-01   | ❌     |
+| LUD-02   | ❌     |
+| LUD-03   | ❌     |
+| LUD-04   | ❌     |
+| LUD-06   | ✔️     |
+| LUD-07   | ❌     |
+| LUD-08   | ❌     |
+| LUD-09   | ✔️     |
+| LUD-10   | ❌     |
+| LUD-11   | ✔️     |
+| LUD-12   | ✔️     |
+| LUD-13   | ❌     |
+| LUD-14   | ❌     |
+| LUD-15   | ❌     |
+| LUD-16   | ✔️     |
+| LUD-17   | ❌     |
+| LUD-18   | ❌     |
+| LUD-19   | ❌     |
+| LUD-20   | ❌     |
+| LUD-21   | ✔️     |
 
 ### npub: [sivothajan.me](https://nosta.me/sivothajan.me)
