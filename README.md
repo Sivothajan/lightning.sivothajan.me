@@ -80,7 +80,7 @@ SUPABASE_TABLE=your_supabase_table
 # Environment variables for the Lightning Network
 HOST_NAME=lightning.sivothajan.me
 NOSTR_PUBLIC_KEY=79f00d3f5a19ec806189fcab03c1be4ff81d18ee4f653c88fac41fe03570f432
-MIN_SENDABLE=1000;
+MIN_SENDABLE=1000
 MAX_SENDABLE=10000000000
 IS_NAME_MANDATORY=false
 IS_EMAIL_MANDATORY=true

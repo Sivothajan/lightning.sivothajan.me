@@ -1,29 +1,26 @@
 import express, { json } from "express";
 import cors from "cors";
-import dotenv from "dotenv";
-import getDepositAddress from "./binance/getDepositAddress.js";
 import { v4 as uuidv4 } from "uuid";
-import saveDepositDetails from "./wallet/saveDepositDetails.js";
-import getDataFromDb from "./supabase/payRequest/getDataFromDb.js";
-import getPaymentStatus from "./supabase/payRequest/getPaymentStatus.js";
-import updatePaymentStatus from "./supabase/payRequest/updatePaymentStatus.js";
-import checkPaymentStatus from "./binance/checkPaymentStatus.js";
+import { checkPaymentStatus, getDepositAddress } from "./binance/index.js";
+import {
+  getDataFromDb,
+  getPaymentStatus,
+  updatePaymentStatus,
+} from "./supabase/payRequest/index.js";
 
-dotenv.config({ quiet: true });
-
-const hostName = process.env.HOST_NAME || "lightning.sivothajan.me";
-const nostrPublicKey =
-  process.env.NOSTR_PUBLIC_KEY ||
-  "79f00d3f5a19ec806189fcab03c1be4ff81d18ee4f653c88fac41fe03570f432";
-const minSendable = parseInt(process.env.MIN_SENDABLE) || 1000;
-const maxSendable = parseInt(process.env.MAX_SENDABLE) || 10000000000;
-const isNameMandatory = process.env.IS_NAME_MANDATORY === "true";
-const isEmailMandatory = process.env.IS_EMAIL_MANDATORY === "true";
-const isPubkeyMandatory = process.env.IS_PUBKEY_MANDATORY === "true";
-const allowsNostr = process.env.ALLOWS_NOSTR === "true";
-const isEmailIdentifier = process.env.IS_EMAIL_IDENTIFIER === "true";
-const isDisposableAddress = process.env.IS_DISPOSABLE_ADDRESS === "true";
-const isCommentsAllowed = process.env.IS_COMMENTS_ALLOWED === "true";
+import {
+  hostName,
+  nostrPublicKey,
+  minSendable,
+  maxSendable,
+  isNameMandatory,
+  isEmailMandatory,
+  isPubkeyMandatory,
+  allowsNostr,
+  isEmailIdentifier,
+  isDisposableAddress,
+  isCommentsAllowed,
+} from "./appClient.js";
 
 const app = express();
 
