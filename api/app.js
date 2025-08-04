@@ -11,6 +11,9 @@ import getDataFromDb from "./supabase/payRequest/getDataFromDb.js";
 import getPaymentStatus from "./supabase/payRequest/getPaymentStatus.js";
 import updatePaymentStatus from "./supabase/payRequest/updatePaymentStatus.js";
 
+// Importing wallet-related functions
+import saveDepositDetails from "./wallet/saveDepositDetails.js";
+
 import dotenv from "dotenv";
 
 dotenv.config({ quiet: true });
