@@ -75,12 +75,16 @@ app.get("/", (req, res) => {
     available_endpoints: {
       "/": "GET - Shows this welcome message with available endpoints.",
       "/check": "GET - Returns server status and timestamp.",
-      "/lnurlp/callback?amount=<amount_in_msats>":
+      "/lnurlp/callback?amount=[amount_in_msats]":
         "GET - Initiates a deposit request and returns a payment request (pr). Amount is required in millisatoshis.",
-      "/lnurlp/callback?amount=<amount_in_msats>&comment=<string>":
+      "/lnurlp/callback?amount=[amount_in_msats]&comment=[string]":
         "GET - Initiates a deposit request with an optional comment and returns a payment request (pr). Amount is required in millisatoshis.",
       "/lnurlp/verify/:uuid":
         "GET - Verifies if the payment with the provided UUID has been settled.",
+      "/.well-known/lnurlp/:username":
+        "GET - Returns LNURLP information for the specified username. The username can include a tag for additional context.",
+      "/.well-known/lnurlp/:username+tag":
+        "GET - Returns LNURLP information for the specified username with a tag. The tag can be used for additional context.",
     },
     note: "Amounts must be provided in millisatoshis (1 satoshi = 1000 millisatoshis).",
   });
