@@ -125,7 +125,7 @@ app.get("/lnurlp/callback", async (req, res) => {
     const [payreqAddress, data] = await getDepositAddress(amountInt);
     data.comment = comment || null;
     data.amount = amountInt;
-    data.nostrPubkey = nostrPublicKey;
+    data.nostr_pubkey = nostrPublicKey;
     data.is_paid = false;
 
     if (!payreqAddress) {
@@ -287,7 +287,7 @@ app.get("/.well-known/lnurlp/:username", (req, res) => {
   };
 
   if (allowsNostr) {
-    content.nostrPubkey = nostrPublicKey;
+    content.nostr_pubkey = nostrPublicKey;
     content.allowsNostr = allowsNostr;
   }
 

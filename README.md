@@ -19,7 +19,7 @@ CREATE TABLE public.lightning_data (
     url TEXT,
     coin TEXT NOT NULL,
     amount BIGINT NOT NULL,
-    notstrPubkey TEXT,
+    notstr_pubkey TEXT,
     tag TEXT,
     comment TEXT,
     is_paid BOOLEAN NOT NULL DEFAULT FALSE,
@@ -40,7 +40,7 @@ CREATE TABLE public.lightning_data (
 
 - **`amount`**: A `BIGINT` column that stores the amount of cryptocurrency in satoshis (the smallest unit of Bitcoin). This field is required and cannot be null.
 
-- **`notstrPubkey`**: A `TEXT` column that stores the public key of the Lightning Network node. This field is optional and can be left empty.
+- **`notstr_pubkey`**: A `TEXT` column that stores the public key of the Lightning Network node. This field is optional and can be left empty.
 
 - **`tag`**: A `TEXT` column that can store an optional tag or label for the Lightning Network address. This field is nullable, meaning it can be left empty.
 
