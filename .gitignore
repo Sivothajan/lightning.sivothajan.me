@@ -1,7 +1,5 @@
-.vercel
 node_modules
 .env
 test
 .gitignore
-.vercel
 ignored
