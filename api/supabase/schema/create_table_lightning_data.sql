@@ -4,7 +4,7 @@ CREATE TABLE public.lightning_data (
     url TEXT,
     coin TEXT NOT NULL,
     amount BIGINT NOT NULL,
-    notstr_pubkey TEXT,
+    nostr_pubkey TEXT,
     tag TEXT,
     comment TEXT,
     is_paid BOOLEAN NOT NULL DEFAULT FALSE,
