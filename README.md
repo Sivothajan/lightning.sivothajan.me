@@ -148,7 +148,7 @@ This project is intended for developers and users familiar with the **Binance Li
 - **Experimental Nature**: This project may still be under development or testing. Use it at your own risk, and make sure to thoroughly test in a safe environment before deploying it for production use.
 - **Binance API Limitations**: The integration with Binance’s Lightning Network may be subject to rate limits, changes in API functionality, or downtime on their servers. Always check for updates and handle errors gracefully.
 - **Security Risks**: Be cautious when handling sensitive information such as API keys, secrets, or user data. Always follow best security practices to avoid exposing sensitive data.
-- **Platform Compatibility**: This project relies on **Supabase**. Ensure that your environment supports **supabase** platform and configurations before using the project in production.
+- **Platform Compatibility**: This project heavily relies on **Supabase**. Ensure that your environment supports **supabase** platform and configurations before using the project in production.
 
 ---
 
