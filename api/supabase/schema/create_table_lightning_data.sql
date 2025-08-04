@@ -7,7 +7,7 @@ CREATE TABLE public.lightning_data (
     notstrPubkey TEXT,
     tag TEXT,
     comment TEXT,
-    isPaid BOOLEAN NOT NULL DEFAULT FALSE,
+    is_paid BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 ) TABLESPACE pg_default;

@@ -1,9 +1,9 @@
 import { supabase, supabaseTable } from "../supabaseClient.js";
 
-const updatePaymetStatus = async (uuid, isPaid) => {
+const updatePaymetStatus = async (uuid, is_paid) => {
   const { boolValue, error } = await supabase
     .from(supabaseTable)
-    .update({ isPaid: isPaid })
+    .update({ is_paid: is_paid })
     .eq("uuid", uuid)
     .select();
 

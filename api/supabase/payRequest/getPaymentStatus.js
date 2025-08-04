@@ -3,7 +3,7 @@ import { supabase, supabaseTable } from "../supabaseClient.js";
 const getPaymetStatus = async (uuid) => {
   const { boolValue, error } = await supabase
     .from(supabaseTable)
-    .select("isPaid")
+    .select("is_paid")
     .eq("uuid", uuid);
 
   if (error) {

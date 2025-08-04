@@ -99,7 +99,7 @@ app.get("/lnurlp/callback", async (req, res) => {
     data.comment = comment || null;
     data.amount = amountInt;
     data.nostrPubkey = nostrPublicKey;
-    data.isPaid = false;
+    data.is_paid = false;
 
     if (!payreqAddress) {
       console.log("Error fetching deposit address!");

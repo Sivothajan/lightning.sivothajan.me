@@ -22,7 +22,7 @@ CREATE TABLE public.lightning_data (
     notstrPubkey TEXT,
     tag TEXT,
     comment TEXT,
-    isPaid BOOLEAN NOT NULL DEFAULT FALSE,
+    is_paid BOOLEAN NOT NULL DEFAULT FALSE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 ) TABLESPACE pg_default;
@@ -46,7 +46,7 @@ CREATE TABLE public.lightning_data (
 
 - **`comment`**: A `TEXT` column that can store an optional comment or description for the Lightning Network address. This field is nullable, meaning it can be left empty.
 
-- **`isPaid`**: A boolean value indicating whether the record has been paid. The default value is `false`, meaning that records will be marked as unpaid by default unless updated to `true`.
+- **`is_paid`**: A boolean value indicating whether the record has been paid. The default value is `false`, meaning that records will be marked as unpaid by default unless updated to `true`.
 
 - **`created_at`**: A timestamp column that records when the entry was created. It defaults to the current timestamp when a new record is inserted.
 

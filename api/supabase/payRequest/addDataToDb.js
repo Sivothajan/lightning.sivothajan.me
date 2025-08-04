@@ -11,7 +11,7 @@ const addDataToDb = async (uuid, paymentData) => {
       nostrPubkey: paymentData.nostrPubkey || null,
       tag: paymentData.tag || null,
       comment: paymentData.comment || null,
-      isPaid: false,
+      is_paid: false,
     },
   ]);
 
