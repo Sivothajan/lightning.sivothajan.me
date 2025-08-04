@@ -1,4 +1,4 @@
-import addDataToDb from "../supabase/addDataToDb.js";
+import addDataToDb from "../supabase/payRequest/addDataToDb.js";
 
 const saveDepositDetails = async (uuid, data) => {
   if (data) {

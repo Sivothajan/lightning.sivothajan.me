@@ -1,17 +1,22 @@
 import fetch from "node-fetch";
 import { createHmac } from "crypto";
 import AbortController from "abort-controller";
-import { apiKey, apiSecret } from "./binanceClient.js";
+import { apiKey, apiSecret, coin } from "./binanceClient.js";
 
 if (!apiKey || !apiSecret) {
   console.error("API Key or Secret is missing!");
   process.exit(1);
 }
 
+if (!coin) {
+  console.error("Coin type is not defined!");
+  process.exit(1);
+}
+
 const getDepositDetails = async (lnbcAddress) => {
   const params = {
     includeSource: true,
-    coin: "BTC",
+    coin: coin,
     timestamp: Date.now(),
   };
 

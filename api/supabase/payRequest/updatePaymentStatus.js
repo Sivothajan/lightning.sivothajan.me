@@ -1,4 +1,4 @@
-import { supabase, supabaseTable } from "./supabaseClient.js";
+import { supabase, supabaseTable } from "../supabaseClient.js";
 
 const updatePaymetStatus = async (uuid, isPaid) => {
   const { boolValue, error } = await supabase

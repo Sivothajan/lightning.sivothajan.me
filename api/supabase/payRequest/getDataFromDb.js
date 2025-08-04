@@ -1,4 +1,4 @@
-import { supabase, supabaseTable } from "./supabaseClient.js";
+import { supabase, supabaseTable } from "../supabaseClient.js";
 
 const getDataFromDb = async (uuid) => {
   const { data, error } = await supabase

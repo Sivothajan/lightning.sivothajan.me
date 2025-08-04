@@ -1,10 +1,15 @@
 import fetch from "node-fetch";
 import { createHmac } from "crypto";
 import AbortController from "abort-controller";
-import { apiKey, apiSecret } from "./binanceClient.js";
+import { apiKey, apiSecret, coin, network } from "./binanceClient.js";
 
 if (!apiKey || !apiSecret) {
   console.error("API Key or Secret is missing!");
+  process.exit(1);
+}
+
+if (!coin || !network) {
+  console.error("Coin type or network is not defined!");
   process.exit(1);
 }
 
@@ -38,8 +43,8 @@ const amountRounder = (amount) => {
 const getDepositAddress = async (amount) => {
   const newAmount = amountRounder(amount);
   const params = {
-    coin: "BTC",
-    network: "LIGHTNING",
+    coin: coin,
+    network: network,
     amount: newAmount,
     timestamp: Date.now(),
   };

@@ -21,7 +21,7 @@
     },
     {
       "source": "/(.*)",
-      "destination": "/api/router"
+      "destination": "/api/app"
     }
   ],
   "regions": ["cdg1"]
