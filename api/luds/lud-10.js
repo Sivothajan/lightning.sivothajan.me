@@ -1,4 +1,74 @@
 /**
+ * Implementation of LUD-10: aes success action for payRequest
+ * @see https://github.com/lnurl/luds/blob/luds/10.md
+ */
+
+/**
+ * Maximum length for description field
+ * @constant {number}
+ */
+export const MAX_DESCRIPTION_LENGTH = 144;
+
+/**
+ * Maximum length for ciphertext (4kb)
+ * @constant {number}
+ */
+export const MAX_CIPHERTEXT_LENGTH = 4096;
+
+/**
+ * Maximum length for iv (24 bytes when base64-encoded)
+ * @constant {number}
+ */
+export const MAX_IV_LENGTH = 24;
+
+/**
+ * Validates an AES success action object
+ * @param {Object} action - The success action to validate
+ * @param {string} action.tag - Must be 'aes'
+ * @param {string} action.description - Description text
+ * @param {string} action.ciphertext - Base64 encoded encrypted data
+ * @param {string} action.iv - Base64 encoded initialization vector
+ * @returns {boolean} True if the action is valid
+ * @throws {Error} If the action is invalid
+ */
+export const validateAesAction = (action) => {
+  if (!action || typeof action !== "object") {
+    throw new Error("Action must be an object");
+  }
+
+  if (action.tag !== "aes") {
+    throw new Error('Action tag must be "aes"');
+  }
+
+  if (typeof action.description !== "string") {
+    throw new Error("Description must be a string");
+  }
+  if (action.description.length > MAX_DESCRIPTION_LENGTH) {
+    throw new Error(
+      `Description must be up to ${MAX_DESCRIPTION_LENGTH} characters`,
+    );
+  }
+
+  if (typeof action.ciphertext !== "string") {
+    throw new Error("Ciphertext must be a string");
+  }
+  if (action.ciphertext.length > MAX_CIPHERTEXT_LENGTH) {
+    throw new Error(
+      "Ciphertext must be base64-encoded and up to 4096 characters/4kb",
+    );
+  }
+
+  if (typeof action.iv !== "string") {
+    throw new Error("IV must be a string");
+  }
+  if (action.iv.length !== 24) {
+    throw new Error("IV must be base64-encoded and exactly 24 characters");
+  }
+
+  return true;
+};
+
+/**
  * Creates a success action object with AES-encrypted data.
  *
  * @param {string} description - Description of the action, up to 144 characters.
@@ -18,15 +88,15 @@ export const successAction_aes = (description, ciphertext, iv) => {
   ) {
     throw new Error("Description, ciphertext, and IV must be strings");
   }
-  if (description.length > 144) {
+  if (description.length > MAX_DESCRIPTION_LENGTH) {
     throw new Error("Description must be up to 144 characters");
   }
-  if (ciphertext.length > 4096) {
+  if (ciphertext.length > MAX_CIPHERTEXT_LENGTH) {
     throw new Error(
       "Ciphertext must be base64-encoded and up to 4096 characters/4kb",
     );
   }
-  if (iv.length !== 24) {
+  if (iv.length !== MAX_IV_LENGTH) {
     throw new Error("IV must be base64-encoded and exactly 24 characters");
   }
   return {
@@ -108,4 +178,11 @@ export const aes_decrypt = (preimage, ciphertext_base64, iv_base64) => {
   }
   const unpadded = decrypted.slice(0, decrypted.length - pad);
   return unpadded.toString("utf8");
+};
+
+export default {
+  validateAesAction,
+  successAction_aes,
+  aes_encrypt,
+  aes_decrypt,
 };

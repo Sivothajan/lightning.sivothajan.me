@@ -154,27 +154,31 @@ This project is intended for developers and users familiar with the **Binance Li
 
 ### Roadmap
 
+#### LUDs Implementation Status
+
 | LUD Spec | Status |
 | -------- | ------ |
-| LUD-01   | ❌     |
-| LUD-02   | ❌     |
-| LUD-03   | ❌     |
-| LUD-04   | ❌     |
+| LUD-01   | ✔️     |
+| LUD-02   | ✔️     |
+| LUD-03   | ✔️     |
+| LUD-04   | ✔️     |
 | LUD-06   | ✔️     |
-| LUD-07   | ❌     |
-| LUD-08   | ❌     |
+| LUD-07   | ✔️     |
+| LUD-08   | ✔️     |
 | LUD-09   | ✔️     |
 | LUD-10   | ✔️     |
 | LUD-11   | ✔️     |
 | LUD-12   | ✔️     |
-| LUD-13   | ❌     |
-| LUD-14   | ❌     |
-| LUD-15   | ❌     |
+| LUD-13   | ✔️     |
+| LUD-14   | ✔️     |
+| LUD-15   | ✔️     |
 | LUD-16   | ✔️     |
-| LUD-17   | ❌     |
-| LUD-18   | ❌     |
-| LUD-19   | ❌     |
-| LUD-20   | ❌     |
+| LUD-17   | ✔️     |
+| LUD-18   | ✔️     |
+| LUD-19   | ✔️     |
+| LUD-20   | ✔️     |
 | LUD-21   | ✔️     |
+
+> NOTE: The LUDs implementation status is based on the `api/luds` folder and may change as new features are added or existing ones are modified.
 
 ### npub: [sivothajan.me](https://nosta.me/sivothajan.me)
