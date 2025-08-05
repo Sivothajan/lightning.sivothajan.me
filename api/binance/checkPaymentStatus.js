@@ -13,6 +13,10 @@ if (!coin) {
   process.exit(1);
 }
 
+/** * Checks the payment status for a given Lightning address.
+ * @param {string} lnbcAddress - The Lightning address to check.
+ * @return {Promise<boolean>} Returns true if the payment is confirmed, false otherwise.
+ */
 const checkPaymentStatus = async (lnbcAddress) => {
   const params = {
     includeSource: true,

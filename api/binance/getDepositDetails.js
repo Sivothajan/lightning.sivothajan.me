@@ -13,6 +13,11 @@ if (!coin) {
   process.exit(1);
 }
 
+/**
+ * Fetches the deposit details from Binance API
+ * @param {string} lnbcAddress - The LNURL address to fetch deposit details for
+ * @returns {Promise<Array<object> | null>} Returns an array of deposit details or null on error
+ */
 const getDepositDetails = async (lnbcAddress) => {
   const params = {
     includeSource: true,

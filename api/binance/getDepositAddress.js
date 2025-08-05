@@ -13,6 +13,10 @@ if (!coin || !network) {
   process.exit(1);
 }
 
+/** * Round the amount to a valid range for Binance deposit address request
+ * @param {number} amount - The amount in milli-satoshis
+ * @returns {number} The rounded amount in Bitcoin
+ */
 const amountRounder = (amount) => {
   const satoshisToBitcoin = (sats) => sats * 0.00000001;
   const bitcoinToSatoshis = (btc) => btc * 100000000;
@@ -40,6 +44,10 @@ const amountRounder = (amount) => {
   return newAmount;
 };
 
+/** * Fetches the deposit address from Binance API
+ * @param {number} amount - The amount in milli-satoshis
+ * @returns {Promise<Array<string, object> | null>} Returns an array with address and additional data or null on error
+ */
 const getDepositAddress = async (amount) => {
   const newAmount = amountRounder(amount);
   const params = {
