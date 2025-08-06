@@ -28,7 +28,7 @@ const checkWithdrawStatus = async (lnbcAddress) => {
   const signature = createHmac("sha256", apiSecret)
     .update(queryString)
     .digest("hex");
-  const url = `https://api.binance.com/sapi/v1/capital/withdraw/history?${queryString}&signature=${signature}`;
+  const url = `https://api.binance.com/sapi/v1/capital/sapi/v1/capital/deposit/hisrec?${queryString}&signature=${signature}`;
 
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 30000);

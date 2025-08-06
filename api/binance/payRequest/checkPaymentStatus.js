@@ -50,7 +50,7 @@ const checkPaymentStatus = async (lnbcAddress) => {
 
     if (Array.isArray(data)) {
       const filteredData = data.filter(
-        (deposit) => deposit.address === lnbcAddress,
+        (withdraw) => withdraw.address === lnbcAddress,
       );
 
       if (filteredData[0].status === 6 && filteredData.length === 0) {
@@ -63,7 +63,7 @@ const checkPaymentStatus = async (lnbcAddress) => {
       return false;
     }
   } catch (error) {
-    console.error("Error fetching deposit details:", error);
+    console.error("Error fetching withdraw details:", error);
     return false;
   } finally {
     clearTimeout(timeoutId);
