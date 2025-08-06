@@ -1,7 +1,7 @@
 import fetch from "node-fetch";
 import { createHmac } from "crypto";
 import AbortController from "abort-controller";
-import { apiKey, apiSecret, coin, network } from "./binanceClient.js";
+import { apiKey, apiSecret, coin, network } from "../binanceClient.js";
 
 if (!apiKey || !apiSecret) {
   console.error("API Key or Secret is missing!");

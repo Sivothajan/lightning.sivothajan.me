@@ -1,20 +1,31 @@
 import express, { json } from "express";
 import cors from "cors";
-import { v4 as uuidv4 } from "uuid";
 
-import { getDepositAddress, checkPaymentStatus } from "./binance/index.js";
 import {
-  getDataFromDb,
-  getPaymentStatus,
-  updatePaymentStatus,
+  getDepositAddress,
+  checkPaymentStatus,
+} from "./binance/payRequest/index.js";
+import { checkWithdrawStatus } from "./binance/withdrawRequest/index.js";
+import {
+  savePayRequestData,
+  getPayRequestData,
+  checkPayRequestStatus,
+  updatePayRequestStatus,
 } from "./supabase/payRequest/index.js";
-import { saveDepositDetails } from "./wallet/index.js";
-
+import {
+  saveWithdrawRequestData,
+  getWithdrawRequestData,
+  checkWithdrawRequestStatus,
+  updateWithdrawStatus,
+} from "./supabase/withdrawRequest/index.js";
+import * as luds from "./luds/index.js";
 import {
   hostName,
   nostrPublicKey,
   minSendable,
   maxSendable,
+  minWithdrawable,
+  maxWithdrawable,
   isNameMandatory,
   isEmailMandatory,
   isPubkeyMandatory,
@@ -24,6 +35,12 @@ import {
   isCommentsAllowed,
   isMessageInSuccessAction,
 } from "./appClient.js";
+import {
+  generateK1,
+  isBolt11Invoice,
+  decodeBolt11Invoice,
+  generateUUID,
+} from "./utils/index.js";
 
 const app = express();
 
@@ -52,22 +69,24 @@ app.get("/", (req, res) => {
         "GET - Initiates a deposit request and returns a payment request (pr). Amount is required in millisatoshis.",
       "/lnurlp/callback?amount=[amount_in_msats]&comment=[string]":
         "GET - Initiates a deposit request with an optional comment and returns a payment request (pr). Amount is required in millisatoshis.",
-      "/lnurlp/verify/:uuid":
+      "/lnurlp/service/pay/verify/:uuid":
         "GET - Verifies if the payment with the provided UUID has been settled.",
       "/.well-known/lnurlp/:username":
         "GET - Returns LNURLP information for the specified username. The username can include a tag for additional context.",
       "/.well-known/lnurlp/:username+tag":
         "GET - Returns LNURLP information for the specified username with a tag. The tag can be used for additional context.",
+      "/lnurlp/service/withdraw": "GET - Initiates a withdraw request service.",
+      "/lnurlp/callback/withdraw?k1=[k1]&pr=[payment_request_address]":
+        "GET - Processes a withdraw request with the provided k1 and payment request address (pr).",
+      "/lnurlp/service/withdraw/verify/:k1":
+        "GET - Verifies the withdraw request with the provided k1.",
     },
     note: "Amounts must be provided in millisatoshis (1 satoshi = 1000 millisatoshis).",
   });
 });
 
-const timestamp = Date.now();
-
-app.get("/lnurlp/callback", async (req, res) => {
-  const { amount } = req.query;
-  const { comment } = req.query;
+app.get("/lnurlp/callback/pay", async (req, res) => {
+  const { amount, comment } = req.query;
 
   const amountInt = parseInt(amount);
   if (!amountInt || isNaN(amountInt)) {
@@ -116,10 +135,10 @@ app.get("/lnurlp/callback", async (req, res) => {
     console.log("Deposit address fetched successfully:", payreqAddress);
 
     if (payreqAddress != null) {
-      const uuid = uuidv4();
+      const uuid = generateUUID();
       try {
-        await saveDepositDetails(uuid, data);
-        await getPaymentStatus(uuid);
+        await savePayRequestData(uuid, data);
+        await getPayRequestData(uuid);
       } catch (error) {
         console.log("Error saving deposit details:", error);
       } finally {
@@ -132,12 +151,12 @@ app.get("/lnurlp/callback", async (req, res) => {
           : (successAction = {
               tag: "url",
               description: "Thanks for your sats, Verify your payment",
-              url: `https://${hostName}/lnurlp/verify/${uuid}`,
+              url: `https://${hostName}/lnurlp/service/pay/verify/${uuid}`,
             });
         const content = {
           status: "OK",
           successAction: successAction, // LUD-09
-          verify: `https://${hostName}/lnurlp/verify/${uuid}`,
+          verify: `https://${hostName}/lnurlp/service/pay/verify/${uuid}`,
           routes: [],
           pr: `${payreqAddress}`,
           disposable: isDisposableAddress, // LUD-11
@@ -165,17 +184,141 @@ app.get("/lnurlp/callback", async (req, res) => {
   }
 });
 
+app.get("/lnurlp/service/withdraw", async (req, res) => {
+  const k1 = generateK1();
+  try {
+    res.json({
+      tag: "withdrawRequest",
+      callback: `https://${hostName}/lnurlp/callback/withdraw`,
+      k1: k1,
+      defaultDescription: `Withdraw sats from ${hostName} for the k1: ${k1}`,
+      minWithdrawable: minWithdrawable,
+      maxWithdrawable: maxWithdrawable,
+    });
+  } catch (error) {
+    console.error("Error saving withdraw request data:", error);
+    res.status(500).json({
+      status: "ERROR",
+      reason: "Internal server error while processing withdraw request.",
+    });
+  }
+});
+
+app.get("/lnurlp/callback/withdraw", async (req, res) => {
+  const { k1, pr } = req.query;
+  if (!k1 || !pr) {
+    return res.status(400).json({
+      status: "ERROR",
+      reason: "Invalid request. Please provide a valid k1 and pr.",
+    });
+  }
+  if (!isBolt11Invoice(pr)) {
+    return res.status(400).json({
+      status: "ERROR",
+      reason: "Invalid pr. Please check your request.",
+    });
+  }
+  if (!luds.validateK1(k1)) {
+    return res.status(400).json({
+      status: "ERROR",
+      reason: "Invalid k1. Please check your request.",
+    });
+  }
+  const decodedInvoice = decodeBolt11Invoice(pr);
+  if (!decodedInvoice) {
+    return res.status(400).json({
+      status: "ERROR",
+      reason: "Invalid pr. Please check your request.",
+    });
+  }
+  const amount =
+    decodedInvoice.millisatoshis || 1000 * decodedInvoice.satoshis || 0;
+  if (amount < minWithdrawable || amount > maxWithdrawable) {
+    return res.status(400).json({
+      status: "ERROR",
+      reason: `Amount must be between ${minWithdrawable} and ${maxWithdrawable} millisatoshis.`,
+    });
+  }
+  try {
+    await saveWithdrawRequestData(k1, pr);
+    await getWithdrawRequestData(k1);
+    res.json({
+      status: "OK",
+      message:
+        "Withdraw request saved successfully & will be paid out soon once the payment is verified.",
+    });
+  } catch (error) {
+    console.error("Error saving withdraw request data:", error);
+    res.status(500).json({
+      status: "ERROR",
+      reason: "Internal server error while processing withdraw request.",
+    });
+  }
+});
+
+app.get("/lnurlp/service/withdraw/verify/:k1", async (req, res) => {
+  const { k1 } = req.params;
+  if (!k1) {
+    return res.status(400).json({
+      status: "ERROR",
+      reason: "K1 is required.",
+    });
+  }
+  try {
+    const rowData = await getWithdrawRequestData(k1);
+    if (rowData.length === 0) {
+      return res.json({
+        status: "ERROR",
+        reason: "Withdraw request not found.",
+      });
+    }
+    const wr = rowData[0]?.address;
+    if (!wr) {
+      return res.json({
+        status: "ERROR",
+        reason: "Withdraw request not found.",
+      });
+    }
+    const isPaidInDb = await checkWithdrawRequestStatus(k1);
+    const isPaidInBinance = await checkWithdrawStatus(k1);
+
+    if (isPaidInDb != isPaidInBinance) {
+      await updateWithdrawStatus(k1, isPaidInBinance);
+      return res.json({
+        status: "OK",
+        settled: isPaidInBinance,
+        preimage: null,
+        pr: wr,
+      });
+    }
+
+    return res.json({
+      status: "OK",
+      settled: isPaidInDb,
+      preimage: null,
+      pr: pr,
+    });
+  } catch (error) {
+    console.log("Error fetching data:", error);
+    return res.json({
+      status: "ERROR",
+      reason: "Withdraw request not found.",
+    });
+  }
+});
+
 app.get("/check", (req, res) => {
+  const timestamp = Date.now();
   res.json({
     status: "OK",
     timestamp,
   });
 });
 
-app.get("/lnurlp/verify/:uuid", async (req, res) => {
+app.get("/lnurlp/service/pay/verify/:uuid", async (req, res) => {
   const { uuid } = req.params;
   try {
-    const rowData = await getDataFromDb(uuid);
+    const rowData = await getPayRequestData(uuid);
     const pr = rowData[0]?.address;
     if (!uuid || !pr) {
       return res.json({
@@ -184,11 +327,11 @@ app.get("/lnurlp/verify/:uuid", async (req, res) => {
       });
     }
 
-    const isPaidInDb = await getPaymentStatus(pr);
+    const isPaidInDb = await checkPayRequestStatus(pr);
     const isPaidInBinance = await checkPaymentStatus(pr);
 
     if (isPaidInDb != isPaidInBinance) {
-      await updatePaymentStatus(uuid, isPaidInBinance);
+      await updatePayRequestStatus(uuid, isPaidInBinance);
       return res.json({
         status: "OK",
         settled: isPaidInBinance,
@@ -258,8 +401,8 @@ app.get("/.well-known/lnurlp/:username", (req, res) => {
   let content = {
     status: "OK",
     tag: "payRequest",
-    commentAllowed: 255,
-    callback: `https://${hostName}/lnurlp/callback`,
+    commentAllowed: 0,
+    callback: `https://${hostName}/lnurlp/callback/pay`,
     minSendable: minSendable,
     maxSendable: maxSendable,
     payerData: {
@@ -269,6 +412,10 @@ app.get("/.well-known/lnurlp/:username", (req, res) => {
     },
     metadata: JSON.stringify(metadataArr),
   };
+
+  if (commentAllowed) {
+    content.commentAllowed = 255;
+  }
 
   if (allowsNostr) {
     content.nostr_pubkey = nostrPublicKey;
@@ -290,5 +437,9 @@ export default app;
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log("\x1b[33m%s\x1b[0m", `⚡ Server launched on port ${port}`);
+  console.log(
+    "\x1b[35m%s\x1b[0m",
+    `🌐 Dev Server URL: http://${host || "localhost"}:${port}`,
+  );
 });

@@ -1,14 +1,14 @@
-import { supabase, supabaseTable } from "../supabaseClient.js";
+import { supabase, supabasePayRequestTable } from "../supabaseClient.js";
 
 /**
- * @function getDataFromDb
+ * @function getPayRequestData
  * @description Fetches payment data from the Supabase database using a unique identifier.
  * @param {string} uuid - The unique identifier for the payment request.
  * @returns {Promise<object[]>} A promise that resolves to an array of payment data objects.
  */
-const getDataFromDb = async (uuid) => {
+const getPayRequestData = async (uuid) => {
   const { data, error } = await supabase
-    .from(supabaseTable)
+    .from(supabasePayRequestTable)
     .select("*")
     .eq("uuid", uuid);
 
@@ -20,4 +20,4 @@ const getDataFromDb = async (uuid) => {
   }
 };
 
-export default getDataFromDb;
+export default getPayRequestData;

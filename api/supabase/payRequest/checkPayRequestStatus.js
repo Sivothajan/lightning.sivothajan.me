@@ -1,14 +1,14 @@
-import { supabase, supabaseTable } from "../supabaseClient.js";
+import { supabase, supabasePayRequestTable } from "../supabaseClient.js";
 
 /**
- * @function getPaymetStatus
+ * @function checkPayRequestStatus
  * @description Fetches the payment status from the Supabase database using a unique identifier.
  * @param {string} uuid - The unique identifier for the payment request.
  * @returns {Promise<boolean>} A promise that resolves to the payment status (is_paid).
  */
-const getPaymetStatus = async (uuid) => {
+const checkPayRequestStatus = async (uuid) => {
   const { boolValue, error } = await supabase
-    .from(supabaseTable)
+    .from(supabasePayRequestTable)
     .select("is_paid")
     .eq("uuid", uuid);
 
@@ -20,4 +20,4 @@ const getPaymetStatus = async (uuid) => {
   }
 };
 
-export default getPaymetStatus;
+export default checkPayRequestStatus;

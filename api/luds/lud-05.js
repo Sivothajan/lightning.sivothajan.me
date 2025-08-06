@@ -1,6 +1,9 @@
 import { createHmac } from "crypto";
-import { fromSeed } from "bip32";
-import { publicKeyCreate } from "secp256k1";
+import BIP32API from "bip32";
+import * as secp256k1 from "secp256k1";
+
+const fromSeed = BIP32API.fromSeed;
+const publicKeyCreate = secp256k1.publicKeyCreate;
 
 /**
  * Implementation of LUD-05: BIP32-based seed generation for auth protocol

@@ -100,6 +100,13 @@ export const validateK1 = (k1) => {
       };
     }
 
+    if (k1.length !== 64) {
+      return {
+        isValid: false,
+        reason: "k1 must be 32 bytes hex encoded (64 hex characters)",
+      };
+    }
+
     return { isValid: true };
   } catch (error) {
     return {

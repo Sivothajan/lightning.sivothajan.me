@@ -33,6 +33,20 @@ const minSendable = parseInt(process.env.MIN_SENDABLE) || 1000;
 const maxSendable = parseInt(process.env.MAX_SENDABLE) || 10000000000;
 
 /**
+ * @constant {number} minWithdrawable - The minimum amount that can be withdrawable in millisatoshis
+ * @type {number}
+ * @description This value is used to validate the minimum withdrawable amount and should be set in your .env file.
+ */
+const minWithdrawable = parseInt(process.env.MIN_WITHDRAWABLE) || 1000;
+
+/**
+ * @constant {number} maxWithdrawable - The maximum amount that can be withdrawable in millisatoshis
+ * @type {number}
+ * @description This value is used to validate the maximum withdrawable amount and should be set in your .env file.
+ */
+const maxWithdrawable = parseInt(process.env.MAX_WITHDRAWABLE) || 10000000000;
+
+/**
  * @constant {boolean} isNameMandatory - Whether the name field is mandatory
  * @type {boolean}
  * @description This flag indicates if the name field is required in requests.
@@ -94,6 +108,8 @@ export {
   nostrPublicKey,
   minSendable,
   maxSendable,
+  minWithdrawable,
+  maxWithdrawable,
   isNameMandatory,
   isEmailMandatory,
   isPubkeyMandatory,
@@ -121,5 +137,22 @@ if (minSendable <= 0 || maxSendable <= 0) {
 
 if (minSendable >= maxSendable) {
   console.error("Min sendable amount must be less than Max sendable amount!");
+  process.exit(1);
+}
+
+if (isNaN(minWithdrawable) || isNaN(maxWithdrawable)) {
+  console.error("Min or Max withdrawable amounts are not valid numbers!");
+  process.exit(1);
+}
+
+if (minWithdrawable <= 0 || maxWithdrawable <= 0) {
+  console.error("Min or Max withdrawable amounts must be greater than zero!");
+  process.exit(1);
+}
+
+if (minWithdrawable >= maxWithdrawable) {
+  console.error(
+    "Min withdrawable amount must be less than Max withdrawable amount!",
+  );
   process.exit(1);
 }

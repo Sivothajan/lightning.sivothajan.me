@@ -18,13 +18,23 @@ const supabaseUrl = process.env.SUPABASE_URL;
 const supabasePublicAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 /**
- * @const {string} supabaseTable - The name of the Supabase table to use
+ * @const {string} supabasePayRequestTable - The name of the Supabase Pay Request table to use
  * @type {string}
- * @description This table is used to store deposit details for the wallet.
+ * @description This table is used to store pay request details for the wallet.
  * It should be defined in your Supabase project.
- * Make sure to set the environment variable SUPABASE_TABLE in your .env file.
+ * Make sure to set the environment variable SUPABASE_PAY_REQUEST_TABLE in your .env file.
  */
-export const supabaseTable = process.env.SUPABASE_TABLE;
+export const supabasePayRequestTable = process.env.SUPABASE_PAY_REQUEST_TABLE;
+
+/**
+ * @const {string} supabaseWithdrawRequestTable - The name of the Supabase Withdraw Request table to use
+ * @type {string}
+ * @description This table is used to store withdraw request details for the wallet.
+ * It should be defined in your Supabase project.
+ * Make sure to set the environment variable SUPABASE_WITHDRAW_REQUEST_TABLE in your .env file.
+ */
+export const supabaseWithdrawRequestTable =
+  process.env.SUPABASE_WITHDRAW_REQUEST_TABLE;
 
 /** * Creates a Supabase client instance
  * @returns {object} The Supabase client

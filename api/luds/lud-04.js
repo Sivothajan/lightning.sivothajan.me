@@ -1,5 +1,7 @@
 import { randomBytes } from "crypto";
-import { ecdsaVerify } from "secp256k1";
+import * as secp256k1 from "secp256k1";
+
+const ecdsaVerify = secp256k1.ecdsaVerify;
 
 /**
  * Implementation of LUD-04: auth base specification

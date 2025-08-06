@@ -1,7 +1,7 @@
-import { supabase, supabaseTable } from "../supabaseClient.js";
+import { supabase, supabasePayRequestTable } from "../supabaseClient.js";
 
 /**
- * @function addDataToDb
+ * @function savePayRequestData
  * @description Inserts payment data into the Supabase database.
  * @param {string} uuid - The unique identifier for the payment request.
  * @param {object} paymentData - The payment data to be inserted.
@@ -13,8 +13,8 @@ import { supabase, supabaseTable } from "../supabaseClient.js";
  * @param {string} [paymentData.tag] - Optional tag for the payment.
  * @param {string} [paymentData.comment] - Optional comment for the payment.
  */
-const addDataToDb = async (uuid, paymentData) => {
-  const { data, error } = await supabase.from(supabaseTable).insert([
+const savePayRequestData = async (uuid, paymentData) => {
+  const { data, error } = await supabase.from(supabasePayRequestTable).insert([
     {
       uuid: uuid,
       address: paymentData.address,
@@ -36,4 +36,4 @@ const addDataToDb = async (uuid, paymentData) => {
   }
 };
 
-export default addDataToDb;
+export default savePayRequestData;

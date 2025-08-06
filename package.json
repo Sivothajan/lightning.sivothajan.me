@@ -12,12 +12,15 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.53.0",
     "abort-controller": "^3.0.0",
+    "bech32": "^2.0.0",
+    "bip32": "^5.0.0-rc.0",
+    "bolt11": "^1.4.1",
     "cors": "^2.8.5",
-    "crypto": "^1.0.1",
     "dotenv": "^17.2.1",
     "express": "^5.1.0",
     "node-fetch": "^3.3.2",
     "nodemon": "^3.1.10",
+    "secp256k1": "^5.0.1",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
