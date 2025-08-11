@@ -10,7 +10,7 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.53.0",
+    "@supabase/supabase-js": "^2.54.0",
     "abort-controller": "^3.0.0",
     "bech32": "^2.0.0",
     "bip32": "^5.0.0-rc.0",
