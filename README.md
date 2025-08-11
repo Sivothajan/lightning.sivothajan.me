@@ -6,9 +6,9 @@ custom domain lightning address support for binance lightning nrtwork with the h
 
 ## Database Setup
 
-This project requires a **Supabase** table called `lightning_data`. To set it up, you can run the following SQL query to create the table in your Supabase database.
+This project requires two **Supabase** tables to store the lightning pay request and withdraw request data. The tables are `lightning_pay_request_data` and `lightning_withdraw_request_data`.
 
-### Create the `lightning_data` Table
+### Create the `lightning_pay_request_data` and `lightning_withdraw_request_data` Tables
 
 Execute the bellow SQL queries to create the tables:
 
