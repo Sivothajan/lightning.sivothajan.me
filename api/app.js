@@ -5,6 +5,7 @@ import {
   savePayRequestData,
   getPayRequestData,
   checkPayRequestStatus,
+  updatePayRequestStatus,
   saveWithdrawRequestData,
   getWithdrawRequestData,
   checkWithdrawRequestStatus,
