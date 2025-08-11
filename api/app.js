@@ -407,7 +407,8 @@ app.get("/lnurlp/service/withdraw/verify/:k1", async (req, res) => {
       });
     }
     const isPaidInDb = await checkWithdrawRequestStatus(k1);
-    const isPaidInBinance = await checkWithdrawStatus(k1);
+    const pr = await getWithdrawRequestData(k1);
+    const isPaidInBinance = await checkWithdrawStatus(pr);
 
     if (isPaidInDb != isPaidInBinance) {
       await updateWithdrawStatus(k1, isPaidInBinance);
@@ -454,7 +455,7 @@ app.get("/lnurlp/service/pay/verify/:uuid", async (req, res) => {
       });
     }
 
-    const isPaidInDb = await checkPayRequestStatus(pr);
+    const isPaidInDb = await checkPayRequestStatus(uuid);
     const isPaidInBinance = await checkPaymentStatus(pr);
 
     if (isPaidInDb != isPaidInBinance) {
