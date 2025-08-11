@@ -539,7 +539,7 @@ app.get("/.well-known/lnurlp/:username", (req, res) => {
     metadata: JSON.stringify(metadataArr),
   };
 
-  if (commentAllowed) {
+  if (isCommentAllowed) {
     content.commentAllowed = 255;
   }
 
