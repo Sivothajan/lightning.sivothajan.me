@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { decodeBolt11Invoice } from "../utils/index.js";
 import dotenv from "dotenv";
 
 dotenv.config({ quiet: true });
@@ -92,8 +93,6 @@ export const getWithdrawRequestData = async (k1) => {
     return data;
   }
 };
-
-import { decodeBolt11Invoice } from "../utils/index.js";
 
 /**
  * @function saveWithdrawRequestData

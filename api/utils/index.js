@@ -1,4 +1,6 @@
 import bolt11 from "bolt11";
+import { randomBytes } from "crypto";
+import { v4 } from "uuid";
 
 export const decodeBolt11Invoice = (str) => {
   try {
@@ -8,21 +10,15 @@ export const decodeBolt11Invoice = (str) => {
   }
 };
 
-import { randomBytes } from "crypto";
-
 export const generateK1 = () => {
   return randomBytes(32).toString("hex"); // 32 bytes → 64 hex chars
 };
-
-import { v4 } from "uuid";
 
 /**
  * Generates a UUID (Universally Unique Identifier).
  * This function uses the `uuid` library to create a version 4 UUID.
  */
 export const generateUUID = v4;
-
-import bolt11 from "bolt11";
 
 export const isBolt11Invoice = (str) => {
   try {

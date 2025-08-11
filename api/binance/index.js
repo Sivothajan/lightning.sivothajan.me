@@ -1,4 +1,7 @@
 import dotenv from "dotenv";
+import fetch from "node-fetch";
+import { createHmac } from "crypto";
+import AbortController from "abort-controller";
 
 dotenv.config({ quiet: true });
 
@@ -37,10 +40,6 @@ if (!coin || !network) {
 }
 
 // Withdraw Request Related
-
-import fetch from "node-fetch";
-import { createHmac } from "crypto";
-import AbortController from "abort-controller";
 
 /** * Checks the withdraw status for a given Lightning address.
  * @param {string} lnbcAddress - The Lightning address to check.
@@ -210,21 +209,6 @@ export const checkPaymentStatus = async (lnbcAddress) => {
     clearTimeout(timeoutId);
   }
 };
-
-import fetch from "node-fetch";
-import { createHmac } from "crypto";
-import AbortController from "abort-controller";
-import { apiKey, apiSecret, coin, network } from "../binanceClient.js";
-
-if (!apiKey || !apiSecret) {
-  console.error("API Key or Secret is missing!");
-  process.exit(1);
-}
-
-if (!coin || !network) {
-  console.error("Coin type or network is not defined!");
-  process.exit(1);
-}
 
 /** * Round the amount to a valid range for Binance deposit address request
  * @param {number} amount - The amount in milli-satoshis
