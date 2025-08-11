@@ -191,9 +191,9 @@ app.get("/", (req, res) => {
     available_endpoints: {
       "/": "GET - Shows this welcome message with available endpoints.",
       "/check": "GET - Returns server status and timestamp.",
-      "/lnurlp/callback?amount=[amount_in_msats]":
+      "/lnurlp/callback/pay?amount=[amount_in_msats]":
         "GET - Initiates a deposit request and returns a payment request (pr). Amount is required in millisatoshis.",
-      "/lnurlp/callback?amount=[amount_in_msats]&comment=[string]":
+      "/lnurlp/callback/pay?amount=[amount_in_msats]&comment=[string]":
         "GET - Initiates a deposit request with an optional comment and returns a payment request (pr). Amount is required in millisatoshis.",
       "/lnurlp/service/pay/verify/:uuid":
         "GET - Verifies if the payment with the provided UUID has been settled.",
