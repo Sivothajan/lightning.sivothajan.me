@@ -34,6 +34,7 @@ import {
   isDisposableAddress,
   isCommentsAllowed,
   isMessageInSuccessAction,
+  allowFastWithdraw,
 } from "./appClient.js";
 import {
   generateK1,
@@ -56,7 +57,62 @@ app.use(
 
 app.use(json());
 
+const fastWithdraw = (req, res, maxFastWithdrawable, minFastWithdrawable) => {
+  const { k1, minWithdrawable, maxWithdrawable, defaultDescription, callback } =
+    req.query;
+  if (
+    !k1 ||
+    !minWithdrawable ||
+    !maxWithdrawable ||
+    !defaultDescription ||
+    !callback
+  ) {
+    return res.status(400).json({
+      status: "ERROR",
+      reason:
+        "Invalid withdraw request. Please provide all required parameters. [tag, k1, minWithdrawable, maxWithdrawable, defaultDescription, callback]",
+    });
+  }
+
+  if (!luds.validateK1(k1)) {
+    return res.status(400).json({
+      status: "ERROR",
+      reason: "Invalid k1. Please check your request.",
+    });
+  }
+
+  try {
+    res.json({
+      tag: "withdrawRequest",
+      callback: callback,
+      k1: k1,
+      defaultDescription: defaultDescription,
+      minWithdrawable: Math.max(
+        parseInt(minFastWithdrawable),
+        parseInt(minWithdrawable),
+      ),
+      maxWithdrawable: Math.min(
+        parseInt(maxFastWithdrawable),
+        parseInt(maxWithdrawable),
+      ),
+    });
+  } catch (error) {
+    console.error("Error saving withdraw request data:", error);
+    res.status(500).json({
+      status: "ERROR",
+      reason: "Internal server error while processing withdraw request.",
+    });
+  }
+};
+
 app.get("/", (req, res) => {
+  if (
+    allowFastWithdraw &&
+    req.query.tag &&
+    req.query.tag.toLowerCase() === "withdrawrequest"
+  ) {
+    return fastWithdraw(req, res, maxWithdrawable, minWithdrawable);
+  }
   res.json({
     status: "OK",
     message: "Welcome to the Lightning Payment API",
@@ -64,6 +120,8 @@ app.get("/", (req, res) => {
       "This API handles Lightning Network payment requests and verification via Binance.",
     available_endpoints: {
       "/": "GET - Shows this welcome message with available endpoints.",
+      "/?tag=withdrawRequest&k1=[k1]&minWithdrawable=[amount_in_msats]&maxWithdrawable=[amount_in_msats]&defaultDescription=[description]&callback=[callbackUrl]":
+        "GET - Initiates a withdraw request with the provided parameters. Returns a withdraw request object.",
       "/check": "GET - Returns server status and timestamp.",
       "/lnurlp/callback/pay?amount=[amount_in_msats]":
         "GET - Initiates a deposit request and returns a payment request (pr). Amount is required in millisatoshis.",

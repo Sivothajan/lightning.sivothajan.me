@@ -103,6 +103,13 @@ const isCommentsAllowed = process.env.IS_COMMENTS_ALLOWED === "true";
 const isMessageInSuccessAction =
   process.env.IS_MESSAGE_IN_SUCCESS_ACTION === "true";
 
+/**
+ * @constant {boolean} allowFastWithdraw - Whether fast withdrawals are allowed
+ * @type {boolean}
+ * @description This flag indicates if fast withdrawals are enabled in the application.
+ */
+const allowFastWithdraw = process.env.ALLOW_FAST_WITHDRAW === "false";
+
 export {
   hostName,
   nostrPublicKey,
@@ -118,6 +125,7 @@ export {
   isDisposableAddress,
   isCommentsAllowed,
   isMessageInSuccessAction,
+  allowFastWithdraw,
 };
 
 if (!hostName || !nostrPublicKey) {
