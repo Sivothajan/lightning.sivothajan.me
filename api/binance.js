@@ -36,6 +36,28 @@ if (!coin || !network) {
   process.exit(1);
 }
 
+const createHmacSHA256 = async (apiSecret, queryString) => {
+  const encoder = new TextEncoder();
+  const keyData = encoder.encode(apiSecret);
+  const data = encoder.encode(queryString);
+
+  const cryptoKey = await crypto.subtle.importKey(
+    "raw",
+    keyData,
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"],
+  );
+
+  const signatureBuffer = await crypto.subtle.sign("HMAC", cryptoKey, data);
+  const signatureArray = Array.from(new Uint8Array(signatureBuffer));
+  const signatureHex = signatureArray
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+
+  return signatureHex;
+};
+
 // Withdraw Request Related
 
 /** * Checks the withdraw status for a given Lightning address.
@@ -50,10 +72,7 @@ export const checkWithdrawStatus = async (lnbcAddress) => {
   };
 
   const queryString = new URLSearchParams(params).toString();
-  const signature = crypto
-    .createHmac("sha256", apiSecret)
-    .update(queryString)
-    .digest("hex");
+  const signature = await createHmacSHA256(apiSecret, queryString);
   const url = `https://api.binance.com/sapi/v1/capital/sapi/v1/capital/deposit/hisrec?${queryString}&signature=${signature}`;
 
   const controller = new AbortController();
@@ -109,10 +128,7 @@ export const getPaymentDetails = async (lnbcAddress) => {
   };
 
   const queryString = new URLSearchParams(params).toString();
-  const signature = crypto
-    .createHmac("sha256", apiSecret)
-    .update(queryString)
-    .digest("hex");
+  const signature = await createHmacSHA256(apiSecret, queryString);
   const url = `https://api.binance.com/sapi/v1/capital/withdraw/history?${queryString}&signature=${signature}`;
 
   const controller = new AbortController();
@@ -164,10 +180,7 @@ export const checkPaymentStatus = async (lnbcAddress) => {
   };
 
   const queryString = new URLSearchParams(params).toString();
-  const signature = crypto
-    .createHmac("sha256", apiSecret)
-    .update(queryString)
-    .digest("hex");
+  const signature = await createHmacSHA256(apiSecret, queryString);
   const url = `https://api.binance.com/sapi/v1/capital/withdraw/history?${queryString}&signature=${signature}`;
 
   const controller = new AbortController();
@@ -255,10 +268,7 @@ export const getDepositAddress = async (amount) => {
   };
 
   const queryString = new URLSearchParams(params).toString();
-  const signature = crypto
-    .createHmac("sha256", apiSecret)
-    .update(queryString)
-    .digest("hex");
+  const signature = await createHmacSHA256(apiSecret, queryString);
   const url = `https://api.binance.com/sapi/v1/capital/deposit/address?${queryString}&signature=${signature}`;
 
   const controller = new AbortController();
@@ -309,10 +319,7 @@ export const getDepositDetails = async (lnbcAddress) => {
   };
 
   const queryString = new URLSearchParams(params).toString();
-  const signature = crypto
-    .createHmac("sha256", apiSecret)
-    .update(queryString)
-    .digest("hex");
+  const signature = await createHmacSHA256(apiSecret, queryString);
   const url = `https://api.binance.com/sapi/v1/capital/deposit/hisrec?${queryString}&signature=${signature}`;
 
   const controller = new AbortController();
