@@ -78,7 +78,7 @@ const validateK1 = (k1) => {
  * Generates a UUID (Universally Unique Identifier).
  * This function uses the `uuid` library to create a version 4 UUID.
  */
-const generateUUID = crypto.randomUUID();
+const generateUUID = () => crypto.randomUUID();
 
 const isBolt11Invoice = async (str) => {
   try {
