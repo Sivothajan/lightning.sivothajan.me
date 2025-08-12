@@ -16,6 +16,10 @@
   ],
   "rewrites": [
     {
+      "source": "/bolt11/(.*)",
+      "destination": "api/bolt11"
+    },
+    {
       "source": "/(.*)",
       "destination": "/api/app"
     }

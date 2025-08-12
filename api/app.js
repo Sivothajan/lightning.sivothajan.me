@@ -2,7 +2,6 @@ export const config = {
   runtime: "edge",
 };
 
-import * as bolt11 from "./bolt11";
 import {
   getDepositAddress,
   checkPaymentStatus,
@@ -19,9 +18,15 @@ import {
   updateWithdrawStatus,
 } from "./supabase.js";
 
-const decodeBolt11Invoice = (str) => {
+const decodeBolt11Invoice = async (str) => {
   try {
-    return bolt11.decode(str);
+    const decoded = await fetch(`/bolt11/decode/${str}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return decoded.json();
   } catch (err) {
     console.error("Error decoding Bolt11 invoice:", err);
   }
@@ -75,9 +80,14 @@ const validateK1 = (k1) => {
  */
 const generateUUID = crypto.randomUUID;
 
-const isBolt11Invoice = (str) => {
+const isBolt11Invoice = async (str) => {
   try {
-    const decoded = bolt11.decode(str);
+    const decoded = await fetch(`/bolt11/decode/${str}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     return decoded.complete === true;
   } catch (err) {
     return false;
@@ -603,7 +613,8 @@ export default async function handler(request) {
             },
           );
         }
-        if (!isBolt11Invoice(pr)) {
+        const isBolt11InvoiceOkay = await isBolt11Invoice(pr);
+        if (!isBolt11InvoiceOkay) {
           return new Response(
             JSON.stringify({
               status: "ERROR",
@@ -627,7 +638,7 @@ export default async function handler(request) {
             },
           );
         }
-        const decodedInvoice = decodeBolt11Invoice(pr);
+        const decodedInvoice = await decodeBolt11Invoice(pr);
         if (!decodedInvoice) {
           return new Response(
             JSON.stringify({
