@@ -223,8 +223,6 @@ async function rpc(fn, params = {}, opts = {}) {
     : null;
 }
 
-import { decodeBolt11Invoice } from "../utils/index.js";
-
 const supabasePayRequestTable =
   process.env.NEXT_PUBLIC_SUPABASE_PAY_REQUEST_TABLE ||
   process.env.SUPABASE_PAY_REQUEST_TABLE;
@@ -263,7 +261,12 @@ export const getWithdrawRequestData = async (k1) => {
 
 export const saveWithdrawRequestData = async (k1, pr) => {
   try {
-    const d = decodeBolt11Invoice(pr);
+    const d = await fetch(`/bolt11/decode/${pr}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((res) => res.json());
     if (!d?.paymentRequest) {
       console.error("Invalid invoice (pr). Decoding failed.");
       return null;
