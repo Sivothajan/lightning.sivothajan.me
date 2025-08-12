@@ -1,4 +1,8 @@
 // supabase.js (enhanced)
+export const config = {
+  runtime: "edge",
+};
+
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const DEFAULT_SCHEMA = process.env.NEXT_PUBLIC_SUPABASE_SCHEMA || "public";

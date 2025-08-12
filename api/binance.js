@@ -1,3 +1,7 @@
+export const config = {
+  runtime: "edge",
+};
+
 /**
  * @constant {string} apiKey - The Binance API key retrieved from environment variables
  * @type {string}
