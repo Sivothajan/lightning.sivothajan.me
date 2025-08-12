@@ -445,7 +445,10 @@ export default async function handler(request) {
               if (isCommentsAllowed) {
                 content.commentAllowed = 255; // Allow comments if configured
               }
-              return new Response(JSON.stringify(content));
+              return new Response(JSON.stringify(content), {
+                status: 200,
+                headers,
+              });
             } catch (error) {
               console.error("Error saving pay request data:", error);
               return new Response(
