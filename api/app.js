@@ -499,6 +499,6 @@ app.listen(port, () => {
   console.log("\x1b[33m%s\x1b[0m", `⚡ Server launched on port ${port}`);
   console.log(
     "\x1b[35m%s\x1b[0m",
-    `🌐 Dev Server URL: http://${host || "localhost"}:${port}`,
+    `🌐 Dev Server URL: http://${hostName || "localhost"}:${port}`,
   );
 });
