@@ -45,8 +45,3 @@ if (!supabaseUrl || !supabasePublicAnonKey) {
   console.error("Supabase URL or Public Anon Key is missing!");
   process.exit(1);
 }
-
-if (!supabaseTable) {
-  console.error("Supabase table name is not defined!");
-  process.exit(1);
-}
