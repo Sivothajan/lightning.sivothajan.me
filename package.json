@@ -6,22 +6,23 @@
   "description": "custom domain lightning address support for binance lightning nrtwork with the help of Binance API and Supabase",
   "type": "module",
   "scripts": {
+    "start": "nodemon api/app.js",
     "dev": "nodemon api/app.js",
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.54.0",
+    "@supabase/supabase-js": "^2.57.2",
     "abort-controller": "^3.0.0",
     "bech32": "^2.0.0",
     "bip32": "^5.0.0-rc.0",
     "bolt11": "^1.4.1",
     "cors": "^2.8.5",
-    "dotenv": "^17.2.1",
+    "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "node-fetch": "^3.3.2",
     "nodemon": "^3.1.10",
     "secp256k1": "^5.0.1",
-    "uuid": "^11.1.0"
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "prettier": "^3.6.2"
